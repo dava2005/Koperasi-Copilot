@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Koperasi Copilot</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div>
+          <p class="eyebrow">Dashboard Koperasi</p>
+          <h1>Koperasi Copilot</h1>
+        </div>
+      </header>
+
+      <section class="stats" id="stats"></section>
+
+      <main class="grid">
+        <section class="panel">
+          <h2>Tambah Anggota</h2>
+          <form id="memberForm">
+            <label>
+              Nama
+              <input type="text" name="name" placeholder="Masukkan nama" required />
+            </label>
+            <label>
+              NIK
+              <input type="text" name="nik" placeholder="Nomor induk" required />
+            </label>
+            <label>
+              Telepon
+              <input type="text" name="phone" placeholder="Nomor telepon" />
+            </label>
+            <label>
+              Status
+              <select name="status">
+                <option value="Aktif">Aktif</option>
+                <option value="Nonaktif">Nonaktif</option>
+              </select>
+            </label>
+            <button type="submit">Simpan Anggota</button>
+          </form>
+        </section>
+
+        <section class="panel">
+          <h2>Pinjaman Baru</h2>
+          <form id="loanForm">
+            <label>
+              Nama Anggota
+              <input type="text" name="memberName" placeholder="Nama anggota" required />
+            </label>
+            <label>
+              Jumlah
+              <input type="number" name="amount" placeholder="0" required />
+            </label>
+            <label>
+              Jatuh Tempo
+              <input type="date" name="dueDate" />
+            </label>
+            <label>
+              Keperluan
+              <input type="text" name="purpose" placeholder="Contoh: Modal usaha" />
+            </label>
+            <button type="submit">Simpan Pinjaman</button>
+          </form>
+        </section>
+      </main>
+
+      <section class="panel">
+        <h2>Daftar Anggota</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Nama</th>
+              <th>NIK</th>
+              <th>Kontak</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="membersTable"></tbody>
+        </table>
+      </section>
+
+      <section class="panel">
+        <h2>Daftar Pinjaman</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Anggota</th>
+              <th>Jumlah</th>
+              <th>Terbayar</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="loansTable"></tbody>
+        </table>
+      </section>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

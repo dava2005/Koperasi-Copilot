@@ -1,23 +1,32 @@
-### AL ###
-#Template for AL projects for Dynamics 365 Business Central
-#launch.json folder
-.vscode/
-#Cache folder
-.alcache/
-#Symbols folder
-.alpackages/
-#Snapshots folder
-.snapshots/
-#Testing Output folder
-.output/
-#Extension App-file
-*.app
-#Rapid Application Development File
-rad.json
-#Translation Base-file
-*.g.xlf
-#License-files
-*.bclicense
-*.flf
-#Test results file
-TestResults.xml
+{
+  "members": [
+    {
+      "id": 1,
+      "name": "Budi Santoso",
+      "nik": "3201010101010001",
+      "phone": "081234567890",
+      "status": "Aktif",
+      "joinDate": "2026-10-29"
+    },
+    {
+      "id": 2,
+      "name": "Sari Lestari",
+      "nik": "3201010101010002",
+      "phone": "081234567891",
+      "status": "Aktif",
+      "joinDate": "2026-10-29"
+    }
+  ],
+  "loans": [
+    {
+      "id": 1,
+      "memberName": "Budi Santoso",
+      "amount": 2500000,
+      "paid": 500000,
+      "dueDate": "2026-11-30",
+      "purpose": "Modal usaha",
+      "status": "Berjalan",
+      "createdAt": "2026-10-29T00:00:00.000Z"
+    }
+  ]
+}

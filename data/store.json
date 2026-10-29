@@ -1,0 +1,122 @@
+async function fetchJson(url, options = {}) {
+  const response = await fetch(url, {
+    headers: { 'Content-Type': 'application/json' },
+    ...options,
+  });
+
+  if (!response.ok) {
+    const err = await response.json();
+    throw new Error(err.message || 'Request gagal');
+  }
+
+  return response.json();
+}
+
+function renderStats(summary) {
+  const stats = document.getElementById('stats');
+  const cards = [
+    { label: 'Total Anggota', value: summary.totalMembers },
+    { label: 'Anggota Aktif', value: summary.activeMembers },
+    { label: 'Total Pinjaman', value: `Rp ${summary.totalLoan.toLocaleString('id-ID')}` },
+    { label: 'Outstanding', value: `Rp ${summary.outstanding.toLocaleString('id-ID')}` },
+  ];
+
+  stats.innerHTML = cards
+    .map(
+      (card) => `
+        <div class="stat-card">
+          <div class="label">${card.label}</div>
+          <div class="value">${card.value}</div>
+        </div>
+      `
+    )
+    .join('');
+}
+
+function renderMembers(members) {
+  const tbody = document.getElementById('membersTable');
+  tbody.innerHTML = members
+    .map(
+      (member) => `
+        <tr>
+          <td>${member.name}</td>
+          <td>${member.nik}</td>
+          <td>${member.phone}</td>
+          <td>${member.status}</td>
+        </tr>
+      `
+    )
+    .join('');
+}
+
+function renderLoans(loans) {
+  const tbody = document.getElementById('loansTable');
+  tbody.innerHTML = loans
+    .map(
+      (loan) => `
+        <tr>
+          <td>${loan.memberName}</td>
+          <td>Rp ${Number(loan.amount).toLocaleString('id-ID')}</td>
+          <td>Rp ${Number(loan.paid).toLocaleString('id-ID')}</td>
+          <td>${loan.status}</td>
+        </tr>
+      `
+    )
+    .join('');
+}
+
+async function loadDashboard() {
+  try {
+    const [summary, members, loans] = await Promise.all([
+      fetchJson('/api/summary'),
+      fetchJson('/api/members'),
+      fetchJson('/api/loans'),
+    ]);
+
+    renderStats(summary);
+    renderMembers(members);
+    renderLoans(loans);
+  } catch (error) {
+    alert(error.message);
+  }
+}
+
+document.getElementById('memberForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const formData = new FormData(e.target);
+  const payload = Object.fromEntries(formData.entries());
+
+  try {
+    await fetchJson('/api/members', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+
+    e.target.reset();
+    loadDashboard();
+  } catch (error) {
+    alert(error.message);
+  }
+});
+
+document.getElementById('loanForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const formData = new FormData(e.target);
+  const payload = Object.fromEntries(formData.entries());
+
+  try {
+    await fetchJson('/api/loans', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    });
+
+    e.target.reset();
+    loadDashboard();
+  } catch (error) {
+    alert(error.message);
+  }
+});
+
+loadDashboard();
